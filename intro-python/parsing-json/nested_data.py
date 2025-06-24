@@ -32,8 +32,25 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 
 with open(os.path.join(here, "interfaces.json")) as file:
+    # Read in the JSON text
+    json_text = file.read() 
     # TODO: Parse the contents of the JSON file into a variable
+json_data = json.loads(json_text)
+
+"""
+{'ietf-interfaces:interface': {'description': 'Wide Area Network',
+                               'enabled': True,
+                               'ietf-ip:ipv4': {'address': [{'ip': '172.16.0.2',
+                                                             'netmask': '255.255.255.0'}]},
+                               'name': 'GigabitEthernet2'}}
+"""
 
 
 # TODO: Loop through the interfaces in the JSON data and print out each
 # interface's name, ip, and netmask.
+for interface in json_data["ietf-interfaces:interfaces"]["interface"]:
+    print("{name}: {ip} {netmask}".format(
+        name=interface["name"],
+        ip=interface["ietf-ip:ipv4"]["address"][0]["ip"],
+        netmask=interface["ietf-ip:ipv4"]["address"][0]["netmask"],
+    ))
